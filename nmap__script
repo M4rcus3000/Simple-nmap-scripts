@@ -1,0 +1,28 @@
+#!/bin/bash
+clear
+mkdir /home/kali/Desktop/nmap_scans
+echo "Type the target Network with the mask Ex: 0.0.0.0/0 "
+read Net
+echo "You selected ${Net} "
+sleep 2
+nmap -sP  ${Net} -oN /home/kali/Desktop/nmap_scans/A_Ping_Scan.txt
+nmap -sS -O -sV  ${Net} -oN /home/kali/Desktop/nmap_scans/B_C_D_Full_Net_Scan.txt
+#git clone https://github.com/vulnersCom/nmap-vulners.git /home/kali/Desktop/try
+clear
+echo "Firts files were created"
+echo "Type the target IP without the mask:"
+read IP
+cd /usr/share/nmap/scripts/ && git clone https://github.com/vulnersCom/nmap-vulners.git
+nmap --script nmap-vulners/ -sV  ${IP} -oN /home/kali/Desktop/nmap_scans/E_All_CVE_Detection.txt
+nmap -p3306 --script mysql-brute  ${IP} -oN /home/kali/Desktop/nmap_scans/F_Mysql_brute_force.txt
+clear
+echo "Enter mysql username"
+read user
+echo "Enter mysql password"
+read password
+nmap -p3306 --script mysql-audit --script-args "mysql-audit.username='${user}', mysql-audit.password='${password}'" ${IP} -oN /home/kali/Desktop/nmap_scans/G_Mysql_audit.txt
+nmap -p80 --script http-wordpress-enum  ${IP} -oN /home/kali/Desktop/nmap_scans/H_wordpress_plugins.txt
+nmap -p80 --script http-wordpress-users  ${IP} -oN /home/kali/Desktop/nmap_scans/I_wordpress_Users.txt
+nmap -p80 --script http-wordpress-brute  ${IP} -oN /home/kali/Desktop/nmap_scans/J_wordpress_brute_force.txt
+Clear
+echo "End of the process"
