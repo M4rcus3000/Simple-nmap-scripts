@@ -1,6 +1,5 @@
 import subprocess
 import os
-import sys
 
 USER = os.getlogin()
 DIR = "/home/%s/Desktop/WorkSpace"%USER
